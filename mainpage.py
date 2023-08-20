@@ -79,15 +79,21 @@ def submit():
 submit_button = tk.Button(frame, text="Submit", command=submit)
 submit_button.grid(row=6, columnspan=2)  # Use columnspan to make the button span two columns
 
-# Create a subheading for results
-results_label = tk.Label(window, text="RESULTS", font=("Helvetica", 12, "bold"))
-results_label.pack(pady=10)
+
+# Create a subheading for results (initially hidden)
+results_label = tk.Label(frame, text="", font=("Helvetica", 12, "bold"))
 
 # Create a function to display the results in a table
 def display_results(team1_data, team2_data):
+    global results_label
+    
     # Create a frame to hold the table that will display the results
     result_frame = tk.Frame(window)
     result_frame.pack()
+
+    # Show the RESULTS subheading between the Submit button and the generated table
+    results_label.config(text="RESULTS")
+    results_label.grid(row=7, columnspan=2, pady=10)  # Use columnspan to span two columns
 
     # Create a table using Treeview widget
     table = ttk.Treeview(result_frame, columns=("Metrics", "Team 1", "Team 2"), show='headings')
