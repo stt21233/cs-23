@@ -60,7 +60,7 @@ def display_results(blocks, turnovers, steals, assists, free_throw_success, free
     result_frame.pack()
 
     # Create a table using Treeview widget
-    table = ttk.Treeview(result_frame, columns=("Blocks", "Turnovers", "Steals", "Assists", "Free Throw Success", "Free Throw Failed"), height=1)
+    table = ttk.Treeview(result_frame, columns=("Blocks", "Turnovers", "Steals", "Assists", "Free Throw Success", "Free Throw Failed"), height=1, show='headings')
 
     table.heading("#1", text="Blocks")
     table.heading("#2", text="Turnovers")
@@ -84,7 +84,7 @@ def display_results(blocks, turnovers, steals, assists, free_throw_success, free
     close_button.grid(row=1, column=0)
     
 # set window size
-window.geometry("500x200")
+window.geometry("1000x500")
 
 # Run the mainloop
 window.mainloop()
