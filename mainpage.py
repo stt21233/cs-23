@@ -68,7 +68,7 @@ def display_results(blocks, turnovers, steals, assists, free_throw_success, free
     table.heading("#4", text="Assists")
     table.heading("#5", text="Free Throw Success")
     table.heading("#6", text="Free Throw Failed")
-    
+
     table.grid(row=0, column=0)
 
     # Add data to the table
@@ -77,9 +77,7 @@ def display_results(blocks, turnovers, steals, assists, free_throw_success, free
     # Create a button to close the window
     close_button = tk.Button(result_frame, text="Close", command=result_frame.destroy)
     close_button.grid(row=1, column=0)
-     
-     
-     
+    
 
 
 # set window size
