@@ -78,6 +78,9 @@ def display_results(blocks, turnovers, steals, assists, free_throw_success, free
     close_button = tk.Button(result_frame, text="Close", command=result_frame.destroy)
     close_button.grid(row=1, column=0)
     
+     # Set the height of the table to reduce its size by half
+    table_height = table.winfo_reqheight() // 2
+    table.config(height=table_height)
 
 
 # set window size
