@@ -7,6 +7,10 @@ from tkinter import ttk  # Import ttk module for Treeview widget
 window = tk.Tk()
 window.title("Basketball Analysis Program")
 
+# Create a title label with dark blue background and white text
+title_label = tk.Label(window, text="Basketball Analysis Tracker", bg="darkblue", fg="white", font=("Helvetica", 14, "bold"))
+title_label.pack(fill="x")
+
 # Create a frame to hold the input fields and the submit button
 frame = tk.Frame(window)
 frame.pack()
@@ -84,7 +88,7 @@ def display_results(blocks, turnovers, steals, assists, free_throw_success, free
     close_button.grid(row=1, column=0)
     
 # set window size
-window.geometry("1000x500")
+window.geometry("700x400")
 
 # Run the mainloop
 window.mainloop()
