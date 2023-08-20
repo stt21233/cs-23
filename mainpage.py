@@ -79,8 +79,9 @@ def submit():
 submit_button = tk.Button(frame, text="Submit", command=submit)
 submit_button.grid(row=6, columnspan=2)  # Use columnspan to make the button span two columns
 
-
-
+# Create a subheading for results
+results_label = tk.Label(window, text="RESULTS", font=("Helvetica", 12, "bold"))
+results_label.pack(pady=10)
 
 # Create a function to display the results in a table
 def display_results(team1_data, team2_data):
