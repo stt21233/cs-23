@@ -37,18 +37,43 @@ free_throw_success_entry.grid(row=5, column=0)
 free_throw_failed_entry = tk.Entry(frame)
 free_throw_failed_entry.grid(row=5, column=1)
 
+# Create an empty list to store the entered data for both teams
+teams_data = [[], []]
+
+# Keep track of which team's data is being entered
+current_team = 0
+
 # Create a function to process the data entered by the user
 def submit():
-    # Get the data from the input fields
-    blocks = blocks_entry.get()
-    turnovers = turnovers_entry.get()
-    steals = steals_entry.get()
-    assists = assists_entry.get()
-    free_throw_success = free_throw_success_entry.get()
-    free_throw_failed = free_throw_failed_entry.get()
+    global current_team
     
-    # Call the display_results function with the entered data
-    display_results(blocks, turnovers, steals, assists, free_throw_success, free_throw_failed)
+    # Get the data from the input fields
+    team_data = (
+        blocks_entry.get(), turnovers_entry.get(), steals_entry.get(),
+        assists_entry.get(), free_throw_success_entry.get(), free_throw_failed_entry.get()
+    )
+    
+    # Store the data in the appropriate team's data list
+    teams_data[current_team].extend(team_data)
+    
+    # Clear the entry fields
+    blocks_entry.delete(0, tk.END)
+    turnovers_entry.delete(0, tk.END)
+    steals_entry.delete(0, tk.END)
+    assists_entry.delete(0, tk.END)
+    free_throw_success_entry.delete(0, tk.END)
+    free_throw_failed_entry.delete(0, tk.END)
+    
+    current_team += 1
+    
+    if current_team == 2:
+        # Call the display_results function with both teams' data
+        display_results(teams_data[0], teams_data[1])
+        
+        # Reset the current_team counter and teams_data list
+        current_team = 0
+        teams_data[0].clear()
+        teams_data[1].clear()
 
 # Create a submit button
 submit_button = tk.Button(frame, text="Submit", command=submit)
@@ -58,30 +83,21 @@ submit_button.grid(row=6, columnspan=2)  # Use columnspan to make the button spa
 
 
 # Create a function to display the results in a table
-def display_results(blocks, turnovers, steals, assists, free_throw_success, free_throw_failed):
+def display_results(team1_data, team2_data):
     # Create a frame to hold the table that will display the results
     result_frame = tk.Frame(window)
     result_frame.pack()
 
     # Create a table using Treeview widget
-    table = ttk.Treeview(result_frame, columns=("Blocks", "Turnovers", "Steals", "Assists", "Free Throw Success", "Free Throw Failed"), height=1, show='headings')
-
-    table.heading("#1", text="Blocks")
-    table.heading("#2", text="Turnovers")
-    table.heading("#3", text="Steals")
-    table.heading("#4", text="Assists")
-    table.heading("#5", text="Free Throw Success")
-    table.heading("#6", text="Free Throw Failed")
-
+    table = ttk.Treeview(result_frame, columns=("Metrics", "Team 1", "Team 2"), show='headings')
+    table.heading("Metrics", text="Metrics")
+    table.heading("Team 1", text="Team 1")
+    table.heading("Team 2", text="Team 2")
     table.grid(row=0, column=0)
 
-    # Add data to the table
-    table.insert("", "end", values=(blocks, turnovers, steals, assists, free_throw_success, free_throw_failed))
-
-     # Set column widths
-    column_widths = [100, 100, 100, 100, 120, 120]  # Adjust these values as needed
-    for col, width in enumerate(column_widths):
-        table.column(col, width=width)
+    metrics = ["Blocks", "Turnovers", "Steals", "Assists", "Free Throw Success", "Free Throw Failed"]
+    for metric in metrics:
+        table.insert("", "end", values=(metric, team1_data[metrics.index(metric)], team2_data[metrics.index(metric)]))
 
     # Create a button to close the window
     close_button = tk.Button(result_frame, text="Close", command=result_frame.destroy)
