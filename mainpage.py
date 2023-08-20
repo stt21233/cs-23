@@ -60,7 +60,7 @@ def display_results(blocks, turnovers, steals, assists, free_throw_success, free
     result_frame.pack()
 
     # Create a table using Treeview widget
-    table = ttk.Treeview(result_frame, columns=("Blocks", "Turnovers", "Steals", "Assists", "Free Throw Success", "Free Throw Failed"))
+    table = ttk.Treeview(result_frame, columns=("Blocks", "Turnovers", "Steals", "Assists", "Free Throw Success", "Free Throw Failed"), height=1)
 
     table.heading("#1", text="Blocks")
     table.heading("#2", text="Turnovers")
@@ -74,15 +74,15 @@ def display_results(blocks, turnovers, steals, assists, free_throw_success, free
     # Add data to the table
     table.insert("", "end", values=(blocks, turnovers, steals, assists, free_throw_success, free_throw_failed))
 
+     # Set column widths
+    column_widths = [100, 100, 100, 100, 120, 120]  # Adjust these values as needed
+    for col, width in enumerate(column_widths):
+        table.column(col, width=width)
+
     # Create a button to close the window
     close_button = tk.Button(result_frame, text="Close", command=result_frame.destroy)
     close_button.grid(row=1, column=0)
     
-     # Set the height of the table to reduce its size by half
-    table_height = table.winfo_reqheight() // 2
-    table.config(height=table_height)
-
-
 # set window size
 window.geometry("500x200")
 
