@@ -1,7 +1,5 @@
 import tkinter as tk
-
 from tkinter import ttk  # Import ttk module for Treeview widget
-
 
 # Create a new Tkinter window
 window = tk.Tk()
@@ -10,6 +8,19 @@ window.title("Basketball Analysis Program")
 # Create a title label with dark blue background and white text
 title_label = tk.Label(window, text="Basketball Analysis Tracker", bg="darkblue", fg="white", font=("Helvetica", 14, "bold"))
 title_label.pack(fill="x")
+
+# Create a subheading label above the entry fields
+subheading_label = tk.Label(window, text="Enter Team 1 Data", font=("Helvetica", 12, "bold"))
+subheading_label.pack(pady=(10, 0))
+
+# Create a menu bar
+menu_bar = tk.Menu(window)
+window.config(menu=menu_bar)
+
+# Create a "File" menu
+file_menu = tk.Menu(menu_bar, tearoff=0)
+menu_bar.add_cascade(label="File", menu=file_menu)
+file_menu.add_command(label="Exit", command=window.quit)
 
 # Create a frame to hold the input fields and the submit button
 frame = tk.Frame(window)
@@ -66,6 +77,10 @@ def submit():
     
     current_team += 1
     
+    if current_team == 1:
+        # Update the subheading label for the second cycle
+        subheading_label.config(text="Enter Team 2 Data")
+        
     if current_team == 2:
         # Call the display_results function with both teams' data
         display_results(teams_data[0], teams_data[1])
@@ -74,10 +89,13 @@ def submit():
         current_team = 0
         teams_data[0].clear()
         teams_data[1].clear()
+        
+        # Reset the subheading label for the next first cycle
+        subheading_label.config(text="Enter Team 1 Data")
 
 # Create a submit button
 submit_button = tk.Button(frame, text="Submit", command=submit)
-submit_button.grid(row=6, columnspan=2)  # Use columnspan to make the button span two columns
+submit_button.grid(row=6, columnspan=2, pady=10)  # Use columnspan to make the button span two columns
 
 #yellow aesthetic - left side
 yellow_square = tk.Label(window, text="", bg="yellow")
