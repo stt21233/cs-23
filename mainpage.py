@@ -79,6 +79,13 @@ def submit():
 submit_button = tk.Button(frame, text="Submit", command=submit)
 submit_button.grid(row=6, columnspan=2)  # Use columnspan to make the button span two columns
 
+#yellow aesthetic - left side
+yellow_square = tk.Label(window, text="", bg="yellow")
+yellow_square.place(x=150, y=29, width=30, height=200) 
+
+#yellow aesthetic - right side
+yellow_square = tk.Label(window, text="", bg="yellow")
+yellow_square.place(x=525, y=29, width=30, height=200) 
 
 # Create a subheading for results (initially hidden)
 results_label = tk.Label(frame, text="", font=("Helvetica", 12, "bold"))
@@ -111,7 +118,7 @@ def display_results(team1_data, team2_data):
     close_button.grid(row=1, column=0)
     
 # set window size
-window.geometry("700x400")
+window.geometry("700x1000")
 
 # Run the mainloop
 window.mainloop()
