@@ -5,6 +5,16 @@ from tkinter import ttk  # Import ttk module for Treeview widget
 window = tk.Tk()
 window.title("Basketball Analysis Program")
 
+# Create a Canvas widget
+canvas = tk.Canvas(window)
+canvas.pack(fill="both", expand=True)
+
+
+# Create a vertical scrollbar
+scrollbar = tk.Scrollbar(window, orient="vertical", command=canvas.yview)
+scrollbar.pack(side="right", fill="y")
+
+
 # Create a title label with dark blue background and white text
 title_label = tk.Label(window, text="Basketball Analysis Tracker", bg="darkblue", fg="white", font=("Helvetica", 14, "bold"))
 title_label.pack(fill="x")
@@ -47,6 +57,8 @@ free_throw_success_entry = tk.Entry(frame)
 free_throw_success_entry.grid(row=5, column=0)
 free_throw_failed_entry = tk.Entry(frame)
 free_throw_failed_entry.grid(row=5, column=1)
+
+
 
 # Create an empty list to store the entered data for both teams
 teams_data = [[], []]
@@ -135,6 +147,8 @@ def display_results(team1_data, team2_data):
     close_button = tk.Button(result_frame, text="Close", command=result_frame.destroy)
     close_button.grid(row=1, column=0)
     
+
+
 # set window size
 window.geometry("700x1000")
 
