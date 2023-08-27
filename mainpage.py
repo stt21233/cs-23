@@ -1,19 +1,10 @@
 import tkinter as tk
-from tkinter import ttk  # Import ttk module for Treeview widget
+from tkinter import ttk
+  # Import ttk module for Treeview widget
 
 # Create a new Tkinter window
 window = tk.Tk()
 window.title("Basketball Analysis Program")
-
-# Create a Canvas widget
-canvas = tk.Canvas(window)
-canvas.pack(fill="both", expand=True)
-
-
-# Create a vertical scrollbar
-scrollbar = tk.Scrollbar(window, orient="vertical", command=canvas.yview)
-scrollbar.pack(side="right", fill="y")
-
 
 # Create a title label with dark blue background and white text
 title_label = tk.Label(window, text="Basketball Analysis Tracker", bg="darkblue", fg="white", font=("Helvetica", 14, "bold"))
@@ -104,6 +95,47 @@ def submit():
         
         # Reset the subheading label for the next first cycle
         subheading_label.config(text="Enter Team 1 Data")
+         # Check if any of the input fields are empty
+    
+    # REFINING: STRING THAT CHECKS FOR MISSING DATA.    
+    missing_indices = [i for i, data in enumerate(team_data) if data == '']
+    if missing_indices:
+        # Display "missing" in the entry boxes that lack data
+        for index in missing_indices:
+            entry_boxes[index].delete(0, tk.END)
+            entry_boxes[index].insert(0, "missing")
+        return
+
+    # Store the data in the appropriate team's data list
+    teams_data[current_team].extend(team_data)
+    
+    # Clear the entry fields
+    for entry in entry_boxes:
+        entry.delete(0, tk.END)
+    
+    current_team += 1
+    
+    if current_team == 1:
+        # Update the subheading label for the second cycle
+        subheading_label.config(text="Enter Team 2 Data")
+        
+    if current_team == 2:
+        # Call the display_results function with both teams' data
+        display_results(teams_data[0], teams_data[1])
+        
+        # Reset the current_team counter and teams_data list
+        current_team = 0
+        teams_data[0].clear()
+        teams_data[1].clear()
+        
+        # Reset the subheading label for the next first cycle
+        subheading_label.config(text="Enter Team 1 Data")
+
+# REFINING: for easier management. 
+entry_boxes = [
+    blocks_entry, turnovers_entry, steals_entry,
+    assists_entry, free_throw_success_entry, free_throw_failed_entry
+]
 
 # Create a submit button
 submit_button = tk.Button(frame, text="Submit", command=submit)
@@ -119,6 +151,7 @@ yellow_square.place(x=525, y=29, width=30, height=200)
 
 # Create a subheading for results (initially hidden)
 results_label = tk.Label(frame, text="", font=("Helvetica", 12, "bold"))
+
 
 # Create a function to display the results in a table
 def display_results(team1_data, team2_data):
@@ -146,7 +179,6 @@ def display_results(team1_data, team2_data):
     # Create a button to close the window
     close_button = tk.Button(result_frame, text="Close", command=result_frame.destroy)
     close_button.grid(row=1, column=0)
-    
 
 
 # set window size
