@@ -100,11 +100,16 @@ def submit():
     # REFINING: STRING THAT CHECKS FOR MISSING DATA.    
     missing_indices = [i for i, data in enumerate(team_data) if data == '']
     if missing_indices:
-        # Display "missing" in the entry boxes that lack data
+        # Display "missing" in the entry boxes that lack data, and set the color to red
         for index in missing_indices:
             entry_boxes[index].delete(0, tk.END)
             entry_boxes[index].insert(0, "missing")
+            entry_boxes[index].config(fg="red")  # Set the text color to red
         return
+
+    # Restore the normal color of entry boxes
+    for entry in entry_boxes:
+        entry.config(fg="black")  # Set the text color back to black
 
     # Store the data in the appropriate team's data list
     teams_data[current_team].extend(team_data)
