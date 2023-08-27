@@ -50,6 +50,35 @@ free_throw_failed_entry = tk.Entry(frame)
 free_throw_failed_entry.grid(row=5, column=1)
 
 
+# REFINING: CHECK IF THERE IS ANY MISSING DATA
+
+# Create a "Missing" message label
+missing_label = tk.Label(frame, text="Missing", fg="red")
+
+# Create a function to check for missing data
+def check_missing_data():
+    missing_fields = []
+    if not blocks_entry.get():
+        missing_fields.append("Blocks")
+    if not turnovers_entry.get():
+        missing_fields.append("Turnovers")
+    if not steals_entry.get():
+        missing_fields.append("Steals")
+    if not assists_entry.get():
+        missing_fields.append("Assists")
+    if not free_throw_success_entry.get():
+        missing_fields.append("Free Throw Success")
+    if not free_throw_failed_entry.get():
+        missing_fields.append("Free Throw Failed")
+    
+    if missing_fields:
+        missing_label.config(text="Missing: " + ", ".join(missing_fields))
+        missing_label.grid(row=8, columnspan=2)
+        submit_button.config(state="disabled")
+    else:
+        missing_label.grid_remove()
+        submit_button.config(state="normal")
+
 
 # Create an empty list to store the entered data for both teams
 teams_data = [[], []]
@@ -60,6 +89,8 @@ current_team = 0
 # Create a function to process the data entered by the user
 def submit():
     global current_team
+
+    
     
     # Get the data from the input fields
     team_data = (
@@ -97,28 +128,11 @@ def submit():
         subheading_label.config(text="Enter Team 1 Data")
          # Check if any of the input fields are empty
     
-    # REFINING: STRING THAT CHECKS FOR MISSING DATA.    
-    missing_indices = [i for i, data in enumerate(team_data) if data == '']
-    if missing_indices:
-        # Display "missing" in the entry boxes that lack data, and set the color to red
-        for index in missing_indices:
-            entry_boxes[index].delete(0, tk.END)
-            entry_boxes[index].insert(0, "missing")
-            entry_boxes[index].config(fg="red")  # Set the text color to red
-        return
-
-    # Restore the normal color of entry boxes
-    for entry in entry_boxes:
-        entry.config(fg="black")  # Set the text color back to black
-
-    # Store the data in the appropriate team's data list
-    teams_data[current_team].extend(team_data)
+    # REFINING: STRING THAT CHECKS FOR MISSING DATA.   
+    # Call check_missing_data to update the missing message and submit button state
+    check_missing_data()
+ 
     
-    # Clear the entry fields
-    for entry in entry_boxes:
-        entry.delete(0, tk.END)
-    
-    current_team += 1
     
     if current_team == 1:
         # Update the subheading label for the second cycle
@@ -137,10 +151,21 @@ def submit():
         subheading_label.config(text="Enter Team 1 Data")
 
 # REFINING: for easier management. 
-entry_boxes = [
-    blocks_entry, turnovers_entry, steals_entry,
-    assists_entry, free_throw_success_entry, free_throw_failed_entry
-]
+# Create a submit button
+submit_button = tk.Button(frame, text="Submit", command=submit, state="disabled")
+submit_button.grid(row=6, columnspan=2, pady=10)  # Use columnspan to make the button span two columns
+
+# Bind the check_missing_data function to each entry field's focus event
+blocks_entry.bind("<FocusOut>", lambda event: check_missing_data())
+turnovers_entry.bind("<FocusOut>", lambda event: check_missing_data())
+steals_entry.bind("<FocusOut>", lambda event: check_missing_data())
+assists_entry.bind("<FocusOut>", lambda event: check_missing_data())
+free_throw_success_entry.bind("<FocusOut>", lambda event: check_missing_data())
+free_throw_failed_entry.bind("<FocusOut>", lambda event: check_missing_data())
+
+# Check for missing data initially
+check_missing_data()
+
 
 # Create a submit button
 submit_button = tk.Button(frame, text="Submit", command=submit)
